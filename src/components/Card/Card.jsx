@@ -14,7 +14,7 @@ export default function MediaCard({data}) {
       <CardMedia
         component="img"
         height="250"
-        image={data.Poster == 'N/A' ? noImage : data.Poster}
+        image={data.Poster === 'N/A' ? noImage : data.Poster}
         alt={data.Title}
       />
       <CardContent>

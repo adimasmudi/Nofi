@@ -1,8 +1,6 @@
 import {React, useEffect, useState} from 'react';
 import { getMovies } from './api';
 
-import Card from './components/Card/Card';
-
 import { Grid, Typography } from '@material-ui/core';
 
 // import material UI components
@@ -10,7 +8,12 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import SearchIcon from '@mui/icons-material/Search';
 
+import Card from './components/Card/Card';
 
+import Pagination from '@mui/material/Pagination';
+import Stack from '@mui/material/Stack';
+
+import Footer from './components/Footer/Footer';
 
 import './App.css';
 import { ClassNames } from '@emotion/react';
@@ -42,7 +45,6 @@ const App = ()=>{
                 label="Cari Film Kesukaan"
                 type="search"
                 onChange={(e)=>{
-                  console.log(searchValue)
                   searchValue = e.target.value
                 }}
                 style={{
@@ -61,10 +63,10 @@ const App = ()=>{
                   height: '45px'
                 }}
                 onClick={()=>{
-                  searchValue = searchValue == undefined ? '' : searchValue
+                  searchValue = searchValue === undefined ? '' : searchValue
                   getMovies(searchValue,page).then(res=>{
-                  setResults(res.data.totalResults);
-                  setMovies(res.data.Search);
+                    setResults(res.data.totalResults);
+                    setMovies(res.data.Search);
                 })}}
                 >
                 Cari Film
@@ -80,10 +82,21 @@ const App = ()=>{
             <h5 className="total">Tidak ada data</h5>
           )}
         </Grid>
-          {movies && movies.map((m)=><Card data={m}/>)}
+        {movies && movies.map((m)=><Card data={m}/>)}
+        <Grid item xs={8}>
+            {
+              results > 0 ? (
+                <Stack spacing={2}>
+                  <Pagination count={10} variant="outlined" shape="rounded" color="primary"/>
+                </Stack>
+              ) : (<p></p>)
+            }
+          
+        </Grid>
         
         
       </Grid>
+      <Footer />
 
       
     </>
