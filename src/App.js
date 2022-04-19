@@ -21,6 +21,7 @@ import { ClassNames } from '@emotion/react';
 const App = ()=>{
 
   let searchValue;
+  let isData = false;
 
   const [page, setPage] = useState(1);
   const [results, setResults] = useState(0);
@@ -32,7 +33,8 @@ const App = ()=>{
     <>
       <Grid container spacing={2} className="header" style={{
         padding : '10px 100px 10px 100px',
-        borderBottom : '1px solid #A79E9E'
+        borderBottom : '1px solid #A79E9E',
+        height:'90%'
         }}>
         <Grid Item xs={6} >
             <Typography variant="h3" style={{color:'red'}}>
@@ -83,20 +85,20 @@ const App = ()=>{
           )}
         </Grid>
         {movies && movies.map((m)=><Card data={m}/>)}
-        <Grid item xs={8}>
+        <Grid item xs={12}>
             {
-              results > 0 ? (
+              results > 0 ? isData = true && (
                 <Stack spacing={2}>
                   <Pagination count={10} variant="outlined" shape="rounded" color="primary"/>
                 </Stack>
-              ) : (<p></p>)
+              ) : isData = false
             }
           
         </Grid>
         
         
       </Grid>
-      <Footer />
+      <Footer isData={isData}/>
 
       
     </>
