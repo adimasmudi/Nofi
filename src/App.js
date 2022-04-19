@@ -23,12 +23,19 @@ const App = ()=>{
   let searchValue;
   let isData = false;
 
+  const [title, setTitle] = useState('')
   const [page, setPage] = useState(1);
   const [results, setResults] = useState(0);
   const [movies, setMovies] = useState([]);
 
-  
-  
+  useEffect(()=>{
+      getMovies(title,page).then(res=>{
+        setResults(res.data.totalResults);
+        setMovies(res.data.Search);
+    })
+  },[title, page])
+
+
   return (
     <>
       <Grid container spacing={2} className="header" style={{
@@ -66,10 +73,8 @@ const App = ()=>{
                 }}
                 onClick={()=>{
                   searchValue = searchValue === undefined ? '' : searchValue
-                  getMovies(searchValue,page).then(res=>{
-                    setResults(res.data.totalResults);
-                    setMovies(res.data.Search);
-                })}}
+                  setTitle(searchValue)
+                  }}
                 >
                 Cari Film
             </Button>
@@ -87,11 +92,18 @@ const App = ()=>{
         {movies && movies.map((m)=><Card data={m}/>)}
         <Grid item xs={12}>
             {
-              results > 0 ? isData = true && (
-                <Stack spacing={2}>
-                  <Pagination count={10} variant="outlined" shape="rounded" color="primary"/>
+              results < 1 ? isData = false : results > 10 ? isData = true && (
+                <Stack spacing={4} >
+                  <Pagination 
+                    count={Math.ceil(results/10)} 
+                    variant="outlined" 
+                    shape="rounded" 
+                    color="primary"
+                    onChange={(e,v)=>setPage(v)}
+                    style={{margin:'20px auto'}}
+                  />
                 </Stack>
-              ) : isData = false
+              ) : isData = true
             }
           
         </Grid>
