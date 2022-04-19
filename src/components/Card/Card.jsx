@@ -3,25 +3,19 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
+import noImage from '../../assets/images/no_image.png';
 
 import { Grid } from '@material-ui/core';
 
-// import poster API
-import { getPoster } from '../../api';
-
-
-
 export default function MediaCard({data}) {
-    const [poster, setPoster] = useState('');
 
-    console.log(data.Poster)
   return (
     <Card sx={{ width: 230,height:350,margin:'16px' }}>
       <CardMedia
         component="img"
         height="250"
-        image={data.Poster}
-        alt="green iguana"
+        image={data.Poster == 'N/A' ? noImage : data.Poster}
+        alt={data.Title}
       />
       <CardContent>
         <Typography gutterBottom variant="h7" component="div">
